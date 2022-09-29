@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>jQuery File Upload Example</title>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+<link rel="stylesheet" href="css/jquery-confirm.css" />
+<link rel="stylesheet" href="css/app.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.1.0/css/fixedColumns.dataTables.min.css" />
+
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/fixedcolumns/3.2.1/js/dataTables.fixedColumns.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.12.1/dataRender/ellipsis.js"></script>
+<script src="js/jquery.ui.widget.js"></script>
+<script src="js/jquery.iframe-transport.js"></script>
+<script src="js/jquery.fileupload.js"></script>
+<script src="js/jquery-confirm.js"></script>
+<!-- script src="js/jquery.spring-friendly.js"></script-->
+<script src="https://cdn.bootcdn.net/ajax/libs/crypto-js/4.1.1/crypto-js.js"></script>
+</head>
+<body>
+	<button onclick="openupload()">Open Upload Dialog</button>
+
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true"></div>
+
+
+	<script type="text/javascript">
+		function openupload() {
+			$("#myModal").load("commons.html #upload_dialog", function() {
+				$('#fileupload').fileupload({
+					//dataType : 'json',
+					url: "uploadserver",
+					autoUpload : true,
+					formData : {
+						method : "sp_imp_customer",
+						type : 5,
+						token : "" + new Date().getTime(),// required when import
+						cols : '{"col1" : "header1","col2" : "header2"}'
+					},
+					add : function(e, data) {
+						$("#filename").val(data.files[0].name);
+						$("#up_btn").on('click', function() {
+							$("#myModal").modal('hide'); //手动关闭
+							var xhr = data.submit();
+						});
+					},
+					done : function(e, data) {
+						console.log("done=" + data);
+						console.log(data.result);
+						alert(data.result);
+					   if (data.result === "FAIL") {
+						   alert("Fail");
+					      error1("Operation failed", "Error: " + data.message);
+					     
+					   }else if(data.result==='SUCCESS'){
+						   info1("SCUESS","file uploaded.");
+					   }
+
+					},
+					fail : function(e, data) {
+						console.log("fail=" + data);
+						console.log(data.result);
+					}
+				});
+			});
+			$("#myModal").modal({
+				backdrop : 'static',
+				keyboard : false
+			}); //手动开启
+		}
+	</script>
+
+</body>
+</html>
