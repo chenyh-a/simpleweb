@@ -302,4 +302,5 @@ $(document).ready(function() {
          return '<span class="ellipsis" title="' + esc(d) + '">' + shortened + '&#8230;</span>';
       };
    };
+    $("#myNav").load("bootstrap.html #navMenu");
 });

@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Customer Info</title>
+<title>Customer List</title>
 
 <link rel="shortcut icon" href="images/favicon.ico" type="images/x-icon" />
 <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
@@ -27,18 +27,16 @@
 
 </head>
 <body>
+<div id="myNav"></div>
  <ul class="breadcrumb">
   <li><a href="index.html">Home</a></li>
-  <li><a href="#">Basic Info</a></li>
-  <li class="active">Customer Info</li>
+  <li><a href="#">Customers</a></li>
+  <li class="active">Customer List</li>
  </ul>
  <div id="d1" style="display: none"></div>
  <div id="d2" style="display: none"></div>
-
  <div class="modal fade" id="myEditDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
  <div class="modal fade" id="myUploadDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
- <br />
- <p />
  <div>
   <button type="button" class="btn btn-default" onclick="queryCustomer()">Query</button>
   <button type="button" class="btn btn-default" onclick="newCustomer()">New</button>
@@ -46,11 +44,9 @@
   <button type="button" class="btn btn-default" onclick="deleteCustomer()">Delete</button>
   <button type="button" class="btn btn-default" onclick="importCustomer()">Import</button>
   <button type="button" class="btn btn-default" onclick="exportCustomer()">Export</button>
-
  </div>
- <br />
-
- <table id="myTable" class="display" style="width: 100%">
+ <br/>
+  <table id="myTable" class="display" style="width: 100%">
   <!-- caption>Customer List</caption-->
   <thead>
    <tr>
