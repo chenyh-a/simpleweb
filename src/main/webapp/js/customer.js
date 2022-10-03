@@ -135,7 +135,7 @@ function listCustomer() {
    var opt = new TOption();
    opt.searching = true;
    opt.paging = true;
-   opt.pageLength = 15;
+   opt.pageLength = 13;
    opt.info = true;
 
    var columns = [

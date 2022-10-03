@@ -125,7 +125,7 @@ class TOption {
       this.scrollCollapse = true;
       this.fixedColumns = { left: 2 };
       this.displayStart = 0;
-      this.pageLength = 15;
+      this.pageLength = 10;
       this.autoWidth = true;
       this.pagingType = "simple_numbers";
       this.paging = true;
@@ -133,9 +133,9 @@ class TOption {
       this.searching = true;
       this.info = true;
       this.scrollX = true;
-      this.scrollY = "610px";
+      this.scrollY = "600px";
       this.select = true;
-      this.lengthMenu = [10, 15, 20, 30, 50, 100, 200, 500];
+      this.lengthMenu = [10, 13, 20, 30, 50, 100, 200, 500];
    }
 }
 
