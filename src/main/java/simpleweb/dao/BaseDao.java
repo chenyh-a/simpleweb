@@ -23,7 +23,7 @@ import simpleweb.vo.ProcedureColumn;
  * @author chenyh
  *
  */
-public abstract class BaseDao<T, E> {
+public abstract class BaseDao<T, E> implements IDao<T, E> {
 	/**
 	 * define resource JNDI name in configuration files, see<br/>
 	 * /META-INF/context.xml (tomcat9)
