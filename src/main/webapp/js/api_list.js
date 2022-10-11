@@ -14,11 +14,8 @@ function proccessResult(obj) {
 
 function listApi() {
    var opt = new TOption();
-   opt.searching = true;
-   opt.paging = true;
    opt.pageLength = 10;
-   opt.info = true;
-
+ 
    var columns = [
       { data: 'db' },
       { data: 'name' },
@@ -28,7 +25,6 @@ function listApi() {
    ];
    var columnsDefs = [];
    var queryData = {
-      tag: "API_LIST",
       method: "sp_get_api_list",
       data: { db: "test" }
    };
