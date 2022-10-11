@@ -27,7 +27,7 @@ public class ExportDao extends BaseDao<ExportRequest, ExportResponse> {
 		try {
 
 			if (stmt1 == null || stmt1.isClosed()) {
-				init(req0);
+				init(req0.method);
 			}
 			for (ProcedureColumn pc : spCols) {
 				String spParamName = pc.COLUMN_NAME;// SP parameter name with prefix p_

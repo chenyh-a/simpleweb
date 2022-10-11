@@ -40,7 +40,7 @@ public class QueryDao extends BaseDao<QueryRequest, QueryResponse> {
 
 		try {
 			if (stmt1 == null || stmt1.isClosed()) {
-				init(req0);
+				init(req0.method);
 			}
 			int totalPos = 0;
 			for (ProcedureColumn pc : spCols) {

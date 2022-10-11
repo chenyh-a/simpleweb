@@ -59,7 +59,7 @@ public class ImportDao extends BaseDao<ImportRequest, ImportResponse> {
 		ImportResponse rsp = req.copy();
 		try {
 			if (stmt1 == null || stmt1.isClosed()) {
-				init(req0);
+				init(req0.method);
 			}
 			Workbook wb = new XSSFWorkbook(new File(req.fullPath));
 			Sheet sheet1 = wb.getSheetAt(0);

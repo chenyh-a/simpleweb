@@ -41,15 +41,15 @@ public abstract class BaseDao<T, E> implements IDao<T, E> {
 
 	public abstract E execute(T req);
 
-	protected void init(BaseRequest req) throws Exception {
-		if (req.method == null) {
+	protected void init(String method) throws Exception {
+		if (method == null) {
 			throw new Exception("Error: Method missing.");
 		}
 		Context ctx = new InitialContext();
 		DataSource ds = (DataSource) ctx.lookup(JNDI_NAME);
 		conn = ds.getConnection();
-		spCols = getSpParams(conn, req.method);
-		String sql = "{call " + req.method + "(";
+		spCols = getSpParams(conn, method);
+		String sql = "{call " + method + "(";
 
 		for (int i = 0; i < spCols.size(); i++) {
 			sql += "?";

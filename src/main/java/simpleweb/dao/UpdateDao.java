@@ -35,7 +35,7 @@ public class UpdateDao extends BaseDao<UpdateRequest, UpdateResponse> {
 		}
 		try {
 			if (stmt1 == null || stmt1.isClosed()) {
-				init(req0);
+				init(req0.method);
 			}
 			for (VO vo : req.data) {
 				for (ProcedureColumn pc : spCols) {
