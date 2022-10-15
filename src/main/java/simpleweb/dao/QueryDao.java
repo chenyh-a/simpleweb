@@ -39,7 +39,7 @@ public class QueryDao extends BaseDao<QueryRequest, QueryResponse> {
 		QueryResponse rsp = req.copy();
 
 		try {
-			if (stmt1 == null || stmt1.isClosed()) {
+			if (stmt == null || stmt.isClosed()) {
 				init(req0.method);
 			}
 			int totalPos = 0;
@@ -61,18 +61,18 @@ public class QueryDao extends BaseDao<QueryRequest, QueryResponse> {
 					val = req.data.get(dbColName);
 				}
 				if (pc.COLUMN_TYPE == 1 || pc.COLUMN_TYPE == 2) {// 1 In 2 InOut 3 Out 4 Return
-					stmt1.setObject(pc.pos, val);
+					stmt.setObject(pc.pos, val);
 				}
 				if (pc.COLUMN_TYPE == 2 || pc.COLUMN_TYPE == 3 || pc.COLUMN_TYPE == 4) {// register out parameter
-					stmt1.registerOutParameter(pc.pos, pc.DATA_TYPE);
+					stmt.registerOutParameter(pc.pos, pc.DATA_TYPE);
 					if (spParamName.equals(PARAM_TOTAL_RECORDS)) {
 						totalPos = pc.pos;
 					}
 				}
 			}
-			rs = stmt1.executeQuery();
+			rs = stmt.executeQuery();
 			if (totalPos > 0) {
-				rsp.recordsTotal = stmt1.getInt(totalPos);
+				rsp.recordsTotal = stmt.getInt(totalPos);
 			}
 			rsp.data = U.getDataFromResultSet(rs);
 			rsp.result = C.RESULT_SUCCESS;

@@ -58,7 +58,7 @@ public class ImportDao extends BaseDao<ImportRequest, ImportResponse> {
 		ImportRequest req = (ImportRequest) req0;
 		ImportResponse rsp = req.copy();
 		try {
-			if (stmt1 == null || stmt1.isClosed()) {
+			if (stmt == null || stmt.isClosed()) {
 				init(req0.method);
 			}
 			Workbook wb = new XSSFWorkbook(new File(req.fullPath));
@@ -98,19 +98,19 @@ public class ImportDao extends BaseDao<ImportRequest, ImportResponse> {
 					} else if (tp == CellType.STRING) {
 						val = cell.getStringCellValue().trim();
 					}
-					stmt1.setObject(pc.pos, val);
+					stmt.setObject(pc.pos, val);
 				}
-				stmt1.addBatch();
+				stmt.addBatch();
 				n++;
 				if (i % 500 == 0) {
-					stmt1.executeBatch();
-					stmt1.clearBatch();
+					stmt.executeBatch();
+					stmt.clearBatch();
 					conn.commit();
 					n = 0;
 				}
 			}
 			if (n > 0) {
-				stmt1.executeBatch();
+				stmt.executeBatch();
 				conn.commit();
 			}
 			wb.close();
@@ -153,15 +153,12 @@ public class ImportDao extends BaseDao<ImportRequest, ImportResponse> {
 
 		try {
 			String spName = req.method + "_verify";
-			if (stmt2 == null || stmt2.isClosed()) {
-				stmt2 = conn.prepareCall("{call " + spName + "(?,?)}");// fixed SP name with suffix _verify
-			}
+			stmt = conn.prepareCall("{call " + spName + "(?,?)}");// fixed SP name with suffix _verify
+			stmt.setObject(1, req.token);// fixed parameter
+			stmt.setObject(2, req.userCode);// fixed parameter
+			stmt.executeUpdate();
 
-			stmt2.setObject(1, req.token);// fixed parameter
-			stmt2.setObject(2, req.userCode);// fixed parameter
-			stmt2.executeUpdate();
-
-			rs = stmt2.getResultSet();
+			rs = stmt.getResultSet();
 			List<VO> list = U.getDataFromResultSet(rs);
 
 			FileInputStream fis = new FileInputStream(req.fullPath);
@@ -191,7 +188,6 @@ public class ImportDao extends BaseDao<ImportRequest, ImportResponse> {
 						row.getCell(i).setCellStyle(style);
 					}
 				}
-
 				rsp.errorNum = list.size();
 				rsp.successNum = rsp.totalNum - rsp.errorNum;
 			}
@@ -199,11 +195,10 @@ public class ImportDao extends BaseDao<ImportRequest, ImportResponse> {
 			File file = new File(req.fullPath);
 			try (OutputStream fileOut = new FileOutputStream(file)) {
 				wb.write(fileOut);
-				;
 			}
 			fis.close();
 			wb.close();
-
+			rsp.result = C.RESULT_SUCCESS;
 		} catch (Exception e) {
 			rsp.result = C.RESULT_FAIL;
 			rsp.message = e.getMessage();

@@ -34,7 +34,7 @@ public class UpdateDao extends BaseDao<UpdateRequest, UpdateResponse> {
 			return rsp;
 		}
 		try {
-			if (stmt1 == null || stmt1.isClosed()) {
+			if (stmt == null || stmt.isClosed()) {
 				init(req0.method);
 			}
 			for (VO vo : req.data) {
@@ -45,20 +45,20 @@ public class UpdateDao extends BaseDao<UpdateRequest, UpdateResponse> {
 					val = vo.get(dbColName);
 					int type = pc.DATA_TYPE;
 					if (spParamName.equals("p_usercode")) {
-						stmt1.setObject(pc.pos, req.userCode);
+						stmt.setObject(pc.pos, req.userCode);
 					} else if (pc.COLUMN_TYPE == 1 || pc.COLUMN_TYPE == 2) {// 1 In 2 InOut 3 Out 4 Return
 						if (isNumeric(type) && "".equals(val)) {
 							val = 0;
 						}
-						stmt1.setObject(pc.pos, val);
+						stmt.setObject(pc.pos, val);
 					}
 					if (pc.COLUMN_TYPE == 2 || pc.COLUMN_TYPE == 3 || pc.COLUMN_TYPE == 4) {// register out parameter
-						stmt1.registerOutParameter(pc.pos, pc.DATA_TYPE);
+						stmt.registerOutParameter(pc.pos, pc.DATA_TYPE);
 					}
 				}
 
 				try {
-					rsp.affected += stmt1.executeUpdate();
+					rsp.affected += stmt.executeUpdate();
 					rsp.result = C.RESULT_SUCCESS;
 				} catch (Exception e) {
 					rsp.result = C.RESULT_FAIL;

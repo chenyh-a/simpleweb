@@ -26,7 +26,7 @@ public class ExportDao extends BaseDao<ExportRequest, ExportResponse> {
 		ExportResponse rsp = req.copy();
 		try {
 
-			if (stmt1 == null || stmt1.isClosed()) {
+			if (stmt == null || stmt.isClosed()) {
 				init(req0.method);
 			}
 			for (ProcedureColumn pc : spCols) {
@@ -37,10 +37,10 @@ public class ExportDao extends BaseDao<ExportRequest, ExportResponse> {
 				Object val = req.data.get(dbColName);
 
 				if (pc.COLUMN_TYPE == 1 || pc.COLUMN_TYPE == 2) {// 1 In 2 InOut 3 Out 4 Return
-					stmt1.setObject(pc.pos, val);
+					stmt.setObject(pc.pos, val);
 				}
 			}
-			rs = stmt1.executeQuery();
+			rs = stmt.executeQuery();
 			ExcelUtil.export(rs, req, rsp);
 
 		} catch (Exception e) {

@@ -32,8 +32,7 @@ public abstract class BaseDao<T, E> implements IDao<T, E> {
 	static final String PARAM_TOKEN = "p_token";
 
 	protected Connection conn;
-	protected CallableStatement stmt1;
-	protected CallableStatement stmt2;
+	protected CallableStatement stmt;
 	protected List<ProcedureColumn> spCols;
 	protected ResultSet rs;
 
@@ -59,7 +58,7 @@ public abstract class BaseDao<T, E> implements IDao<T, E> {
 		}
 		sql += ")}";
 
-		stmt1 = conn.prepareCall(sql);
+		stmt = conn.prepareCall(sql);
 
 		log.debug(sql);
 
@@ -100,10 +99,8 @@ public abstract class BaseDao<T, E> implements IDao<T, E> {
 		try {
 			if (rs != null && !rs.isClosed())
 				rs.close();
-			if (stmt1 != null && !stmt1.isClosed())
-				stmt1.close();
-			if (stmt2 != null && !stmt2.isClosed())
-				stmt2.close();
+			if (stmt != null && !stmt.isClosed())
+				stmt.close();
 			if (conn != null && !conn.isClosed())
 				conn.close();
 		} catch (Exception e) {
