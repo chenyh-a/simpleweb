@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context>
-	<Resource auth="Container" name="jdbc/mariaDB"
+	<Resource 
+	   auth="Container" 
+	   name="jdbc/mariaDB"
 		type="javax.sql.DataSource" 
 		driverClassName="org.mariadb.jdbc.Driver"
 		jdbcUrl="jdbc:mariadb://localhost:3306/test?useUnicode=true;characterEncoding=UTF-8;"
